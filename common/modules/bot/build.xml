@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="InfomarketBot" default="deploy" basedir="./">
+    <property name="deploy.dir" value="/var/www/astrobot/common/modules/bot"/>
+    <property name="ssh.host" value="astrobot24.online"/>
+    <property name="ssh.user" value="ilogachev"/>
+    <property name="ssh.password" value="Derw45sh84"/>
+    <target name="deploy">
+        <echo msg="Обновляем данные..."/>
+        <ssh username="${ssh.user}" password="${ssh.password}" host="${ssh.host}" command="cd ${deploy.dir} &amp;&amp; git pull origin astrobot" />
+    </target>
+</project>

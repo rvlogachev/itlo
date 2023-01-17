@@ -1,0 +1,38 @@
+{
+  "name": "backend/cms",
+  "description": "Core CMS module",
+  "keywords": ["yii2", "cms"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.9",
+  "homepage": "https://github.com/wdmg/yii2-reposts",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-reposts",
+    "issues": "https://github.com/wdmg/yii2-reposts/issues"
+  },
+  "authors": [
+    {
+      "name": "Roman Logachev",
+      "email": "rlogachev@itlo.ru"
+    },
+    {
+      "name": "Infomarket Co",
+      "email": "info@itlo.ru"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.20",
+    "wdmg/yii2-base": "^1.0.1"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "common\\modules\\cms\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin"
+    }
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "name": "med/med",
+  "description": "Med Application Backend",
+  "keywords": [
+    "yii2",
+    "framework",
+    "start",
+    "cms",
+    "application template",
+    "yii2 advanced"
+  ],
+  "authors": [
+    {
+      "name": "Eugene Terentev",
+      "email": "eugene@terentev.net",
+      "homepage": "http://terentev.net"
+    },
+    {
+      "name": "Victor Gonzalez",
+      "email": "victor@vgr.cl",
+      "homepage": "https://vgr.cl"
+    }
+  ],
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yii2-starter-kit/yii2-starter-kit/issues?state=open",
+    "source": "https://github.com/yii2-starter-kit/yii2-starter-kit"
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "ext-intl": "*",
+    "yiisoft/yii2": "^2.0.13",
+    "yiisoft/yii2-swiftmailer": "^2.0.0",
+    "yiisoft/yii2-authclient": "^2.0.0",
+    "yiisoft/yii2-bootstrap4": "^2.0",
+    "yiisoft/yii2-httpclient": "~2.0",
+    "yiisoft/yii2-jui": "^2.0.0",
+    "yiisoft/yii2-bootstrap": "@stable",
+    "yiisoft/yii2-imagine": "~2.2.0",
+    "yii2-starter-kit/yii2-file-kit": "^2.1.0",
+    "asofter/yii2-imperavi-redactor": ">=0.0.3@dev",
+    "trntv/yii2-aceeditor": "^2.0",
+    "trntv/probe": "^1.0",
+    "trntv/yii2-glide": "^1.2",
+    "trntv/yii2-datetime-widget": "dev-master@dev",
+    "trntv/cheatsheet": "^0.1@dev",
+    "trntv/yii2-command-bus": "^3.0",
+    "intervention/image": "^2.1",
+    "vlucas/phpdotenv": "^2.0",
+    "almasaeed2010/adminlte": "^3.0",
+    "npm-asset/font-awesome": "^5.0",
+    "npm-asset/html5shiv": "^3.0",
+    "npm-asset/jquery-slimscroll": "^1.3",
+    "npm-asset/flot": "^3.2",
+    "symfony/process": "^4.0",
+    "guzzlehttp/guzzle": "^6.0",
+    "alexantr/yii2-elfinder": "^1.3",
+    "trntv/sitemaped": "^0.1",
+    "yii2mod/yii2-swagger": "^1.1",
+    "rmrevin/yii2-fontawesome": "^3.4",
+    "kartik-v/yii2-widgets": "^3.4",
+    "loveorigami/yii2-modal-ajax": "@dev",
+    "kartik-v/yii2-date-range": "@stable",
+    "kartik-v/yii2-export": "@stable",
+    "leonied7/yandex-disk-api": "dev-master",
+    "mihaildev/yii2-ckeditor": "*",
+    "paulzi/yii2-auto-tree": "^1.1.0",
+    "paulzi/yii2-adjacency-list": "^2.2.0",
+    "paulzi/yii2-nested-sets": "^1.1.0",
+    "paulzi/yii2-materialized-path": "^2.1.0",
+    "kop/yii2-scroll-pager": "dev-master",
+    "cocur/slugify": "^4.0",
+    "2amigos/yii2-file-upload-widget": "~1.0",
+    "kartik-v/yii2-datecontrol": "@dev",
+    "giggsey/libphonenumber-for-php": "^8.12",
+    "mihaildev/yii2-elfinder": "*",
+    "bower-asset/underscore": "*"
+
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "^2.0.0",
+    "yiisoft/yii2-gii": "^2.0.0",
+    "yiisoft/yii2-faker": "^2.0.0",
+    "codeception/codeception": "2.4.0",
+    "codeception/verify": "^0.3.1"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\": "tests/"
+    }
+  },
+  "suggest": {
+    "trntv/yii2-debug-xhprof": "dev-master@dev"
+  },
+  "config": {
+    "process-timeout": 1800,
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "archive": {
+    "exclude": ["docs"]
+  },
+  "scripts": {
+
+    "build:env_prod": [
+      "cp .env.prod.dist .env"
+    ],
+
+    "build:env_dev": [
+      "cp .env.dev.dist .env"
+    ],
+
+    "build:app": [
+      "@composer install",
+      "console/yii app/setup --interactive=0",
+      "echo 'application started successfully' && sleep 1"
+    ],
+    "docker:build_dev": [
+      "@build:env_dev",
+      "@docker:start",
+      "docker-compose exec -T itlo_app composer run-script build:app",
+      "docker-compose run -T --rm webpacker npm i npm@latest -g",
+      "docker-compose run -T --rm webpacker npm install",
+      "docker-compose run -T --rm webpacker npm run build",
+      "echo \"All ok!\""
+    ],
+    "docker:build_prod": [
+      "@build:env_prod",
+      "@docker:start",
+      "docker-compose exec -T itlo_app composer run-script build:app",
+      "docker-compose run -T --rm webpacker npm i npm@latest -g",
+      "docker-compose run -T --rm webpacker npm install",
+      "docker-compose run -T --rm webpacker npm run build",
+      "echo \"All ok!\""
+    ],
+    "docker:start": [
+      "docker-compose up --force-recreate -d"
+    ],
+    "docker:cleanup": [
+      "docker-compose rm -fsv"
+    ],
+    "docker:tests": [
+      "@docker:start",
+      "docker-compose exec -T db mysql -uroot -proot -e \"CREATE DATABASE IF NOT EXISTS \\`itlo-test\\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci\"",
+      "docker-compose exec -T app ./vendor/bin/codecept build",
+      "docker-compose exec -T app php tests/bin/yii app/setup --interactive=0",
+      "echo 'open a new terminal and run \"docker-compose exec -T app vendor/bin/codecept run\"' && docker-compose exec -T app php -S localhost:80"
+    ]
+  }
+}

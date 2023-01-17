@@ -1,0 +1,43 @@
+{
+  "name": "backend/bot",
+  "description": "Bot module for socialisation",
+  "keywords": ["yii2", "yii2-bookmarks", "bookmarks", "bookmark", "itlo"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.10",
+  "homepage": "https://github.com/wdmg/yii2-bookmarks",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-bookmarks",
+    "issues": "https://github.com/wdmg/yii2-bookmarks/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.33",
+    "wdmg/yii2-base": "^1.1.6"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "common\\modules\\bot\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin",
+      "whatsAppToken": "123sdfs234sdf",
+      "viberToken": "123sdfs234sdf",
+      "vkToken": "123sdfs234sdf",
+      "fbToken": "123sdfs234sdf",
+      "telegramToken": "123sdfs234sdf"
+    }
+  }
+}

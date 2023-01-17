@@ -1,0 +1,114 @@
+<?php
+namespace common\modules\cms\modules\admin\widgets\formInputs;
+
+use common\modules\backend\helpers\BackendUrlHelper;
+use common\modules\cms\Exception;
+use common\modules\cms\models\Publication;
+use common\modules\cms\modules\admin\Module;
+use yii\db\ActiveRecord;
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\web\Application;
+use yii\widgets\InputWidget;
+use Yii;
+
+/**
+ * Class OneImage
+ * @package common\modules\cms\modules\admin\widgets\formInputs
+ */
+class OneImage extends InputWidget
+{
+    public static $autoIdPrefix = 'inputImage';
+
+    /**
+     * @var bool
+     */
+    public $showPreview = true;
+
+    /**
+     * @var array
+     */
+    public $clientOptions = [];
+
+    /**
+     * @var string Путь к выбору файлов
+     */
+    public $selectFileUrl = '';
+
+    /**
+     * @var null
+     */
+    public $filesModel = null;
+
+    public function init()
+    {
+        parent::init();
+
+        if (!$this->selectFileUrl)
+        {
+            $additionalData = [];
+
+            $modelForFile = $this->model;
+
+            if ($this->filesModel)
+            {
+                $modelForFile = $this->filesModel;
+            }
+
+            if ($modelForFile instanceof ActiveRecord && !$modelForFile->isNewRecord)
+            {
+                $additionalData = [
+                    'className' => $modelForFile->className(),
+                    'pk'        => $modelForFile->primaryKey,
+                ];
+
+            }
+
+            Html::addCssClass($this->options, 'form-control');
+            $additionalData['callbackEvent'] = $this->getCallbackEvent();
+
+            $this->selectFileUrl = BackendUrlHelper::createByParams(['/cms/admin-tools/select-file'])
+                ->merge((array) $additionalData)
+                ->enableEmptyLayout()
+                ->url
+            ;
+        }
+    }
+    /**
+     * @inheritdoc
+     */
+    public function run()
+    {
+        try
+        {
+            echo $this->render('one-image', [
+                'widget' => $this,
+            ]);
+
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getCallbackEvent()
+    {
+        return $this->id . '-select-file';
+    }
+
+    /**
+     * @return string
+     */
+    public function getJsonOptions()
+    {
+        return Json::encode([
+            'id'                        => $this->id,
+            'callbackEvent'             => $this->getCallbackEvent(),
+            'selectFileUrl'             => $this->selectFileUrl,
+        ]);
+
+    }
+}

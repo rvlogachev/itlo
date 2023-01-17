@@ -1,0 +1,38 @@
+{
+  "name": "backend/likes",
+  "description": "System of accounting user likes",
+  "keywords": ["yii2", "yii2-likes", "user likes", "wdmg"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.11",
+  "homepage": "https://github.com/wdmg/yii2-likes",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-likes",
+    "issues": "https://github.com/wdmg/yii2-likes/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.20",
+    "wdmg/yii2-base": "^1.0.1"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "common\\modules\\likes\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin"
+    }
+  }
+}

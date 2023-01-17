@@ -1,0 +1,16 @@
+/*  Ipad Landscape + PC */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .panel-body {
+        height: 538px;
+    }
+
+    /*.panel-body .messages-wrapper, .webbot-container .webbot-wrapper {*/
+    /*height: 100%*/
+    /*}*/
+
+
+    .panel-body .messages-wrapper {
+        height: 538px;
+    }
+}
+

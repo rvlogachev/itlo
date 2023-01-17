@@ -1,0 +1,35 @@
+<?php
+/**
+ * @author Semenov Alexander <semenov@skeeks.com>
+ * @link http://skeeks.com/
+ * @copyright 2010 SkeekS (СкикС)
+ * @date 25.05.2015
+ */
+/* @var $this   yii\web\View */
+/* @var $widget \skeeks\cms\cmsWidgets\treeMenu\TreeMenuCmsWidget */
+/* @var $trees  \skeeks\cms\models\Tree[] */
+?>
+
+
+<div class="col-lg-3 col-md-6 g-mb-40 g-mb-0--lg">
+    <div class="u-heading-v2-3--bottom g-mb-20">
+        <h2 class="u-heading-v2__title h6 text-uppercase mb-0 g-font-weight-600"><?= $widget->label; ?></h2>
+    </div>
+
+    <nav class="text-uppercase1">
+        <ul class="list-unstyled g-mt-minus-10 mb-0">
+
+            <?php if ($trees = $widget->activeQuery->all()) : ?>
+                <?php foreach ($trees as $tree) : ?>
+                    <?= $this->render("_one-footer", [
+                        "widget" => $widget,
+                        "model"  => $tree,
+                    ]); ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+
+
+        </ul>
+    </nav>
+</div>
+

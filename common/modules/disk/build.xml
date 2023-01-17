@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ritualBot" default="deploy" basedir=".">
+    <property name="deploy.dir" value="/var/www/infomarket2/common/modules/file"/>
+    <property name="ssh.host" value="infomarketstudio.ru"/>
+    <property name="ssh.user" value="ilogachev"/>
+    <property name="ssh.password" value="Derw45sh84"/>
+    <target name="deploy">
+        <echo msg="Обновляем данные..."/>
+        <ssh username="${ssh.user}" password="${ssh.password}" host="${ssh.host}" command="cd ${deploy.dir}  &amp;&amp; git pull " />
+    </target>
+</project>

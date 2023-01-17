@@ -1,0 +1,26 @@
+{
+    "name": "skeeks/yii2-assets-unify-v2-min",
+    "description": "Template unify bootstrap 4",
+    "keywords": ["template", "yii2", "unify", "bootstrap 4"],
+    "homepage": "https://skeeks.com",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://skeeks.com",
+        "source": "https://skeeks.com"
+    },
+    "authors": [
+        {
+            "name": "Semenov Alexander",
+            "email": "semenov@skeeks.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "^2.0 || dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "skeeks\\assets\\unify\\": "src/"
+        }
+    }
+}

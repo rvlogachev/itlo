@@ -1,0 +1,49 @@
+{
+    "name": "skeeks/cms-shop",
+    "description": "Интернет магазин для SkeekS CMS",
+    "keywords": [
+        "module",
+        "cms",
+        "skeeks",
+        "sx",
+        "app",
+        "yii2",
+        "shop"
+    ],
+    "homepage": "http://www.skeeks.com/",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://cms.skeeks.com",
+        "wiki": "https://git.skeeks.com/skeeks/cms/wikis/home",
+        "source": "https://git.skeeks.com/skeeks/cms"
+    },
+    "authors": [
+        {
+            "name": "Semenov Alexander",
+            "email": "semenov@skeeks.com"
+        }
+    ],
+    "require": {
+        "skeeks/cms": "^5.0 || dev-master",
+        "skeeks/cms-money": "^1.0 || dev-master",
+        "chillerlan/php-qrcode": "^4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "skeeks\\cms\\shop\\": "src/"
+        }
+    },
+    "extra": {
+        "config-plugin": {
+            "web": [
+                "src/config/common.php",
+                "src/config/web.php"
+            ],
+            "console": [
+                "src/config/common.php",
+                "src/config/console.php"
+            ]
+        }
+    }
+}

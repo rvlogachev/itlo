@@ -1,0 +1,48 @@
+{
+  "name": "backend/sitemap",
+  "description": "Sitemap manager",
+  "keywords": ["yii2", "yii2-sitemap", "sitemap", "manager", "itlo"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "1.1.4",
+  "homepage": "https://github.com/wdmg/yii2-sitemap",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-sitemap",
+    "issues": "https://github.com/wdmg/yii2-sitemap/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.35",
+    "wdmg/yii2-base": "^1.2.4",
+    "wdmg/yii2-selectinput": "^1.0.9"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "common\\modules\\sitemap\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin",
+      "supportModels": {
+        "pages": "common\\modules\\pages\\models\\Pages",
+        "news": "common\\modules\\news\\models\\News",
+        "blog": "common\\modules\\blog\\models\\Posts"
+      },
+      "cacheExpire": 43200,
+      "defaultFrequency": "weekly",
+      "defaultPriority": 0.5,
+      "sitemapRoute": "/"
+    }
+  }
+}

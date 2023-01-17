@@ -1,0 +1,124 @@
+<?php
+/* @var $this yii\web\View */
+/* @var $action \common\modules\cms\modules\admin\actions\modelEditor\AdminMultiDialogModelEditAction */
+/* @var $content \common\modules\cms\models\CmsContent */
+
+$model = new \common\modules\cms\models\CmsContentElement();
+
+$jsData = \yii\helpers\Json::encode([
+    'id' => $action->id
+]);
+
+$this->registerJs(<<<JS
+(function(sx, $, _)
+{
+    sx.classes.MultiRP = sx.classes.Component.extend({
+
+        _onDomReady: function()
+        {
+            var self = this;
+            this.jWrapper = $("#" + this.get('id'));
+            this.jForm = $('form', this.jWrapper);
+            this.jSelect = $('.sx-select', this.jWrapper);
+
+            this.jSelect.on('change', function()
+            {
+                $(".sx-multi", self.jForm).slideUp();
+
+                if (self.jSelect.val())
+                {
+                    self.jForm.show();
+                } else
+                {
+                    self.jForm.hide();
+                }
+
+                _.each(self.jSelect.val(), function(element)
+                {
+                    $(".sx-multi-" + element, self.jForm).slideDown();
+
+                });
+            });
+        }
+    });
+
+    new sx.classes.MultiRP({$jsData});
+})(sx, sx.$, sx._);
+JS
+);
+?>
+<div id="<?= $action->id; ?>">
+    <?php if ($action->controller && $action->controller->content) : ?>
+
+        <?php $content = $action->controller->content; ?>
+        <?php $element = $content->createElement(); ?>
+        <?php $element->loadDefaultValues(); ?>
+
+        <?php
+            $rpm = $element->relatedPropertiesModel;
+        ?>
+
+        <?php if ($element && $rpm) : ?>
+
+            <?php $rpm->initAllProperties(); ?>
+            <?php $form = \common\modules\cms\modules\admin\widgets\ActiveForm::begin([
+                'options' => [
+                    'class' => 'sx-form',
+                ]
+            ]); ?>
+            <?=  \common\modules\cms\modules\chosen\Chosen::widget([
+                'multiple' => true,
+                'name' => 'fields',
+                'options' => [
+                    'class' => 'sx-select'
+                ],
+                'items' => $rpm->attributeLabels()
+            ]); ?>
+
+            <?= \yii\helpers\Html::hiddenInput('content_id', $content->id); ?>
+
+
+            <?php foreach ($rpm->getProperties() as $property) : ?>
+                <div class="sx-multi sx-multi-<?= $property->code; ?>" style="display: none;">
+                    <?php if ($property->property_type == \common\modules\cms\relatedProperties\PropertyType::CODE_ELEMENT) : ?>
+
+                        <?php if ($property->handler->fieldElement == \common\modules\cms\relatedProperties\propertyTypes\PropertyTypeElement::FIELD_ELEMENT_SELECT) : ?>
+                            <?php
+                            echo $form->field($rpm, $property->code)->widget(
+                                \common\modules\backend\widgets\SelectModelDialogContentElementWidget::class,
+                                [
+                                    'content_id' => $property->handler->content_id
+                                ]
+                            );
+                            ?>
+                        <?php else
+                            : ?>
+                            <?php
+                            echo $form->field($rpm, $property->code)->widget(
+                                \common\modules\backend\widgets\SelectModelDialogContentElementWidget::class,
+                                [
+                                    'content_id' => $property->handler->content_id,
+                                    'multiple' => true
+                                ]
+                            );
+                            ?>
+                        <?php endif; ?>
+                    <?php else
+                        : ?>
+                        <?= $property->renderActiveForm($form);
+                        ?>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+            <?= $form->buttonsStandart($model, ['save']); ?>
+            <?php $form::end(); ?>
+        <?php else
+            : ?>
+            Not found properties
+        <?php endif;
+        ?>
+    <?php endif; ?>
+</div>
+
+
+

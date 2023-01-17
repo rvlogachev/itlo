@@ -1,0 +1,52 @@
+{
+	"name": "skeeks/cms-theme-unify-v2",
+	"description": "Theme unify for skeeks cms projects",
+	"keywords": ["yii", "skeeks", "framework", "component", "admin"],
+    "homepage": "https://cms.skeeks.com/",
+	"type": "yii2-extension",
+	"license": "BSD-3-Clause",
+	"support": {
+        "issues": "https://skeeks.com/",
+        "wiki": "https://cms.skeeks.com/docs/",
+        "source": "https://github.com/skeeks-cms/cms-admin"
+    },
+	"authors": [
+		{
+			"name": "Semenov Alexander",
+			"email": "semenov@skeeks.com"
+		}
+	],
+	"require": {
+		"skeeks/cms": "^5.1.0 || dev-master",
+        "skeeks/cms-eav-query-filter-handler": "^1.0.0 || dev-master",
+
+        "skeeks/yii2-widget-nanogallery": "^0.0.1 || dev-master",
+
+        "skeeks/yii2-assets-unify-v2-min": "^2.6 || dev-master",
+        "skeeks/yii2-bootstrap4": "^2.0.0 || dev-master",
+
+        "skeeks/cms-ya-share": "^2.0.1 || dev-master",
+
+        "fortawesome/font-awesome": "^5.9.0",
+        "skeeks/yii2-mobile-detect": "^1.0.2",
+
+        "skeeks/yii2-ajax-pager": "^2.0",
+        "skeeks/yii2-mmenu-widget": "^2.0"
+	},
+    "autoload": {
+        "psr-4": {
+            "skeeks\\cms\\themes\\unify\\": "src/"
+        }
+    },
+    "extra": {
+        "config-plugin": {
+            "console": [
+                "src/config/common.php"
+            ],
+            "web": [
+                "src/config/common.php",
+                "src/config/web.php"
+            ]
+        }
+    }
+}

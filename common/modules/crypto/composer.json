@@ -1,0 +1,38 @@
+{
+  "name": "backend/bookmarks",
+  "description": "Bookmarks storage module",
+  "keywords": ["yii2", "yii2-bookmarks", "bookmarks", "bookmark", "wdmg"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.10",
+  "homepage": "https://github.com/wdmg/yii2-bookmarks",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-bookmarks",
+    "issues": "https://github.com/wdmg/yii2-bookmarks/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.33",
+    "wdmg/yii2-base": "^1.1.6"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "common\\modules\\bookmarks\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin"
+    }
+  }
+}

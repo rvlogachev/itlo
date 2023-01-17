@@ -1,0 +1,52 @@
+<?php
+
+return [
+    'Mailer' => "Эл. почта",
+    'Mail manager' => "Менеджер почты",
+
+    'View mail' => "Просмотр отправления",
+
+    'Message ID' => "ИД-отправления",
+    'Date/time' => "Дата/время",
+    'Subject' => "Тема",
+    'From' => "Отправитель",
+    'Email from' => "Эл.адрес отправителя",
+    'To' => "Получатель",
+    'Email to' => "Эл.адрес получателя",
+    'To (copy)' => "Получателя (копия)",
+    'Email to (copy)' => "Эл.адрес получателя (копия)",
+    'MIME-version' => "MIME-версия",
+    'Content' => "Содержимое",
+    'Reply to' => "Адрес для ответа",
+    'Text-сontent' => "Текстовый контент",
+    'HTML-content' => "HTML-контент",
+    'Source' => "Исходник",
+    'Status' => "Статус",
+    'Is sended?' => "Отправлено?",
+    'Is viewed?' => "Просмотрено?",
+    'Tracking key' => "Ключ отслеживания",
+    'Message Id' => "ИД отправления",
+    'The `Mailer` component must be configured in the application.' => "Компонент `Mailer` должен быть сконфигурирован в приложении",
+    'Created at' => "Создано",
+    'Updated at' => "Обновлено",
+    'Created by' => "Автор создания",
+    'Updated by' => "Автор изменений",
+
+    'First page' => 'Первая страница',
+    'Last page' => 'Последняя страница',
+    '&larr; Prev page' => '&larr; Предыдущая страница',
+    'Next page &rarr;' => 'Следующая страница &rarr;',
+
+    'Download report' => "Загрузить отчёт",
+    'Delete all' => "Удалить всё",
+
+    'Source data' => "Исходные данные",
+    'Actions' => "Действия",
+    'All statuses' => "Все статусы",
+    'Sended' => "Отправлено",
+    'Not sended' => "Не отправлено",
+    'Viewed' => "Просмотрено",
+    'Not viewed' => "Не просмотрено",
+    'Sended and viewed' => "Отправлено и просмотрено",
+    'Sended and not viewed' => "Отправлено и не просмотрено",
+];

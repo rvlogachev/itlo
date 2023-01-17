@@ -1,0 +1,9 @@
+
+/*  Ipad Portreit */
+@media (min-width: 768px) and (max-width: 1023px) {
+    @viewport {
+        width: device-width;
+        zoom: 2;
+    }
+
+}

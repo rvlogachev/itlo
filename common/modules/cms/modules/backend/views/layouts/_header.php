@@ -1,0 +1,260 @@
+<?php
+/* @var $this yii\web\View */
+/**
+ * @var $theme \common\modules\cms\modules\themeunify\admin\UnifyThemeAdmin;
+ */
+$theme = $this->theme;
+
+?>
+
+
+<?php
+$langOptions = \yii\helpers\Json::encode([
+    'backend' => \common\modules\cms\helpers\UrlHelper::construct(['/cms/admin-ajax/set-lang'])->enableAdmin()->toString()
+]);
+
+                    $this->registerJs(<<<JS
+(function(sx, $, _)
+{
+    sx.classes.ChangeLang = sx.classes.Component.extend({
+
+        setLang: function(code)
+        {
+            this.ajaxQuery = sx.ajax.preparePostQuery(this.get('backend'), {
+                'code' : code
+            });
+
+            var Handler = new sx.classes.AjaxHandlerStandartRespose(this.ajaxQuery, {
+                'enableBlocker'                      : true,
+                'blockerSelector'                    : 'body',
+            });
+
+            Handler.bind('success', function()
+            {
+                window.location.reload();
+            });
+
+            this.ajaxQuery.execute();
+        }
+    });
+    
+    sx.ChangeLang = new sx.classes.ChangeLang({$langOptions});
+
+})(sx, sx.$, sx._);
+JS
+                    );
+                    ?>
+
+
+<!-- Header -->
+<header id="js-header" class="u-header u-header--sticky-top">
+    <div class="<?php //echo $theme->headerClasses; ?>">
+        <nav class="navbar no-gutters g-pa-0">
+            <div class="col-auto d-flex flex-nowrap u-header-logo-toggler g-py-12">
+                <!-- Logo -->
+                <a href="<?php //echo $theme->logoHref; ?>" class="navbar-brand d-flex align-self-center g-hidden-xs-down py-0">
+                    <?php //if ($theme->logoSrc) : ?>
+                        <img class="default-logo" src="<?php //echo $theme->logoSrc; ?>" alt="<?php //echo $theme->logoTitle; ?>">
+                    <?php //endif; ?>
+                    <?php //echo $theme->logoTitle; ?>
+                </a>
+                <!-- End Logo -->
+                <!-- Sidebar Toggler -->
+                <a class="js-side-nav u-header__nav-toggler d-flex align-self-center ml-auto" href="#!" data-hssm-class="u-side-nav--mini u-sidebar-navigation-v1--mini" data-hssm-body-class="u-side-nav-mini" data-hssm-is-close-all-except-this="true" data-hssm-target="#sideNav">
+                    <i class="hs-admin-align-left"></i>
+                </a>
+                <!-- End Sidebar Toggler -->
+            </div>
+            <!-- Messages/Notifications/Top Search Bar/Top User -->
+            <div class="col-auto d-flex g-py-12 g-pl-40--lg ml-auto">
+
+                <div class="g-pos-rel sx-btn-backend-header">
+                    <a id="messagesInvoker" class="d-block text-uppercase u-header-icon-v1 g-pos-rel g-width-40 g-height-40 rounded-circle g-font-size-20"
+                       href="<?= \yii\helpers\Url::home(); ?>"
+                       target="_blank"
+                       title="<?= \Yii::t('skeeks/cms', 'To main page of site') ?>"
+                    >
+                        <!--<span class="u-badge-v1 g-top-7 g-right-7 g-width-18 g-height-18 g-bg-primary g-font-size-10 g-color-white rounded-circle p-0">7</span>-->
+                        <i class="fas fa-external-link-alt g-absolute-centered"></i>
+                    </a>
+                </div>
+
+                <?php if (\Yii::$app->user->can('cms/admin-clear')) : ?>
+
+                    <?php
+                    $clearCacheOptions = \yii\helpers\Json::encode([
+                        'backend' => \common\modules\cms\helpers\UrlHelper::construct(['/cms/admin-clear/index'])->enableAdmin()->toString(),
+                    ]);
+
+                    $this->registerJs(<<<JS
+(function(sx, $, _)
+{
+  
+    sx.classes.ClearCache = sx.classes.Component.extend({
+
+        execute: function(code)
+        {
+            this.ajaxQuery = sx.ajax.preparePostQuery(this.get('backend'), {
+                'code' : code
+            });
+
+            var Handler = new sx.classes.AjaxHandlerStandartRespose(this.ajaxQuery, {
+                'enableBlocker'                      : true,
+                'blockerSelector'                    : 'body',
+            });
+
+            this.ajaxQuery.execute();
+        }
+    });
+
+    sx.ClearCache = new sx.classes.ClearCache({$clearCacheOptions});
+
+})(sx, sx.$, sx._);
+JS
+                    );
+                    ?>
+                    <div class="g-pos-rel sx-btn-backend-header">
+                        <a id="messagesInvoker" class="d-block text-uppercase u-header-icon-v1 g-pos-rel g-width-40 g-height-40 rounded-circle g-font-size-20"
+                           href="#" onclick="sx.ClearCache.execute(); return false;"
+                           title="<?= \Yii::t('skeeks/cms', 'Clear cache and temporary files') ?>"
+                        >
+                            <!--<span class="u-badge-v1 g-top-7 g-right-7 g-width-18 g-height-18 g-bg-primary g-font-size-10 g-color-white rounded-circle p-0">7</span>-->
+                            <i class="fas fa-sync g-absolute-centered"></i>
+                        </a>
+                    </div>
+
+                    <!--<li class="sx-left-border dropdown visible-md visible-lg visible-sm visible-xs">
+                    <a href="#" onclick="sx.ClearCache.execute(); return false;" style="width: auto;" data-sx-widget="tooltip-b" data-original-title="<?php /*=\Yii::t('skeeks/cms','Clear cache and temporary files')*/ ?>"><i class="glyphicon glyphicon-refresh"></i></a>
+                </li>-->
+                <?php endif; ?>
+
+                <?php if (\Yii::$app->user->can('cms/admin-settings')) : ?>
+
+                    <div class="g-pos-rel sx-btn-backend-header">
+                        <a id="messagesInvoker" class="d-block text-uppercase u-header-icon-v1 g-pos-rel g-width-40 g-height-40 rounded-circle g-font-size-20"
+                           href="<?= \yii\helpers\Url::to(['/cms/admin-settings']); ?>"
+                           title="<?= \Yii::t('skeeks/cms', 'Project settings') ?>"
+                        >
+                            <!--<span class="u-badge-v1 g-top-7 g-right-7 g-width-18 g-height-18 g-bg-primary g-font-size-10 g-color-white rounded-circle p-0">7</span>-->
+                            <i class="hs-admin-settings g-absolute-centered"></i>
+                        </a>
+                    </div>
+
+                <?php endif; ?>
+
+
+
+
+
+                <!-- Top User -->
+                <div class="col-auto d-flex g-pt-5 g-pt-0--sm g-pl-10 g-pl-20--sm">
+                    <div class="g-pos-rel g-px-10--lg sx-header-user-profile">
+                        <a id="profileMenuInvoker" class="d-block" href="#!" aria-controls="sx-lang-menu" aria-haspopup="true" aria-expanded="false" data-dropdown-event="click" data-dropdown-target="#sx-lang-menu" data-dropdown-type="css-animation" data-dropdown-duration="300"
+                           data-dropdown-animation-in="fadeIn" data-dropdown-animation-out="fadeOut">
+                            <span class="g-pos-rel">
+                            <span class="u-badge-v2--xs u-badge--top-right g-hidden-sm-up g-bg-secondary g-mr-5"></span>
+                            <!--<span class="g-width-30 g-width-40--md g-height-30 g-height-40--md rounded-circle g-mr-10--sm sx-avatar">
+                                <?/*= \Yii::$app->admin->cmsLanguage->code; */?>
+                            </span>-->
+                             <img class="g-width-30 g-width-40--md g-height-30 g-height-40--md rounded-circle g-mr-10--sm sx-avatar"
+                                  src="<?php //echo \Yii::$app->admin->cmsLanguage->image ? \Yii::$app->admin->cmsLanguage->image->src : \skeeks\cms\helpers\Image::getCapSrc(); ?>"
+                              >
+                            </span>
+                            <span class="g-pos-rel g-top-2">
+                                <span class="g-hidden-sm-down"><?php //echo \Yii::$app->admin->cmsLanguage->name; ?></span>
+                                <i class="hs-admin-angle-down g-pos-rel g-top-2 g-ml-10"></i>
+                            </span>
+                        </a>
+
+                        <!-- Top User Menu -->
+                        <ul id="sx-lang-menu" class="js-custom-scroll g-absolute-centered--x g-width-340 g-max-width-200 g-mt-17 rounded g-pb-15 g-pt-10" aria-labelledby="profileMenuInvoker">
+
+                            <?php if ($langs = \common\modules\cms\models\CmsLang::find()->active()->all()) : ?>
+                                <?php foreach ($langs as $lang) : ?>
+
+                                    <li class="g-mt-5">
+                                        <a class="media g-py-5 g-px-20" href="#" onclick="sx.ChangeLang.setLang('<?= $lang->code; ?>'); return false;">
+                                            <span class="d-flex align-self-center g-mr-12">
+
+                                                <?php if($lang->image) : ?>
+                                                    <img class="pull-right" height="20" style="" src="<?= $lang->image->src; ?>" />
+                                                <?php else: ?>
+                                                    <img class="pull-right" height="20" style="" src="<?= \common\modules\cms\helpers\Image::getCapSrc(); ?>" />
+                                                <?php endif; ?>
+
+                                            </span>
+                                            <span class="media-body align-self-center">
+                                            [<?= $lang->code; ?>] <?= $lang->name; ?>
+                                            </span>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php endif;  ?>
+
+
+
+                        </ul>
+                        <!-- End Top User Menu -->
+                    </div>
+                </div>
+                <!-- End Top User -->
+
+
+
+
+                <!-- Top User -->
+                <div class="col-auto d-flex g-pt-5 g-pt-0--sm g-pl-10 g-pl-20--sm">
+                    <div class="g-pos-rel g-px-10--lg sx-header-user-profile">
+                        <a id="profileMenuInvoker" class="d-block" href="#!" aria-controls="profileMenu" aria-haspopup="true" aria-expanded="false" data-dropdown-event="click" data-dropdown-target="#profileMenu" data-dropdown-type="css-animation" data-dropdown-duration="300"
+                           data-dropdown-animation-in="fadeIn" data-dropdown-animation-out="fadeOut">
+                <span class="g-pos-rel">
+        <span class="u-badge-v2--xs u-badge--top-right g-hidden-sm-up g-bg-secondary g-mr-5"></span>
+                <img class="g-width-30 g-width-40--md g-height-30 g-height-40--md rounded-circle g-mr-10--sm sx-avatar" src="<?php //echo \Yii::$app->user->identity->avatarSrc ? \Yii::$app->user->identity->avatarSrc : \skeeks\cms\helpers\Image::getCapSrc(); ?>" alt="Image description">
+                </span>
+                            <span class="g-pos-rel g-top-2">
+        <span class="g-hidden-sm-down"><?php //echo \Yii::$app->user->identity->shortDisplayName; ?></span>
+                <i class="hs-admin-angle-down g-pos-rel g-top-2 g-ml-10"></i>
+                </span>
+                        </a>
+
+                        <!-- Top User Menu -->
+                        <ul id="profileMenu" class="g-pos-abs g-left-0 g-width-100x--lg g-nowrap g-font-size-14 g-py-20 g-mt-17 rounded" aria-labelledby="profileMenuInvoker">
+
+                            <li class="g-mb-10">
+                                <a class="media g-py-5 g-px-20" href="<?= \yii\helpers\Url::to(['/cms/admin-profile/update']); ?>">
+                                                <span class="d-flex align-self-center g-mr-12">
+                                      <i class="hs-admin-user"></i>
+                                    </span>
+                                    <span class="media-body align-self-center"><?= \Yii::t('skeeks/cms', 'Profile') ?></span>
+                                </a>
+                            </li>
+
+                            <li class="g-mb-10">
+                                <a class="media g-py-5 g-px-20" href="<?= \common\modules\cms\helpers\UrlHelper::construct('admin/admin-auth/lock')->setCurrentRef(); ?>" data-method="post">
+                                        <span class="d-flex align-self-center g-mr-12">
+                                      <i class="fas fa-lock"></i>
+                                    </span>
+                                    <span class="media-body align-self-center"><?= \Yii::t('skeeks/cms', 'To block'); ?></span>
+                                </a>
+                            </li>
+
+                            <li class="mb-0">
+                                <a class="media g-py-5 g-px-20" href="<?= \common\modules\cms\helpers\UrlHelper::construct('cms/auth/logout')->setCurrentRef(); ?>" data-method="post">
+                    <span class="d-flex align-self-center g-mr-12">
+          <i class="hs-admin-shift-right"></i>
+        </span>
+                                    <span class="media-body align-self-center">Выход</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- End Top User Menu -->
+                    </div>
+                </div>
+                <!-- End Top User -->
+            </div>
+            <!-- End Messages/Notifications/Top Search Bar/Top User -->
+        </nav>
+
+    </div>
+</header>
+<!-- End Header -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DeMo" default="deploy" basedir=".">
+    <property name="deploy.dir" value="/var/www/cryptoparrot"/>
+    <property name="ssh.host" value="94.102.124.30"/>
+    <property name="ssh.port" value="10322"/>
+    <property name="ssh.user" value="rlogachev"/>
+    <property name="ssh.password" value="Chd56@&rT"/>
+    <target name="deploy">
+        <echo msg="Обновляем данные..."/>
+        <ssh username="${ssh.user}" password="${ssh.password}" host="${ssh.host}" command="cd ${deploy.dir} &amp;&amp; git pull origin master" />
+    </target>
+</project>

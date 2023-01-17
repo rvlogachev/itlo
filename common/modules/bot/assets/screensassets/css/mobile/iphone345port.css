@@ -1,0 +1,50 @@
+/* Iphone 3,4,5,6  Portreit */
+@media (min-width: 320px) and (max-width: 374px) {
+    /*@viewport {*/
+        /*width: device-width;*/
+        /*zoom: 0.5;*/
+    /*}*/
+
+    .order {
+        height: 2150px !important;
+    }
+
+    .header_bot p {
+        font-size: 22px;
+    }
+
+    .button-row .btn-submit {
+        HEIGHT: 95PX !important;
+    }
+    .newmasthead .newmasthead_top, .advantages_top, .wath_top, .order_form_top {
+        font-size: 32px !important;
+    }
+    .newmasthead .newmasthead_bot, .advantages_bot, .order_form_bot {
+        font-size: 24px;
+    }
+
+    .advantages p {
+        font-size: 12px !important;
+    }
+    .characteristics ul li {
+        font-size: 16px !important;
+    }
+    body {
+        width: 641px !important;
+        zoom: 0.5 !important;
+    }
+    .wath ul li {
+        font-size: 22px !important;
+    }
+    .btn_order, button {
+        font-size: 24px !important;
+    }
+    .order_form .price {
+
+        font-size: 75px !important;
+    }
+    .price {
+
+        font-size: 75px !important;
+    }
+}

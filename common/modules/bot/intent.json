@@ -1,0 +1,28 @@
+        {
+          "id": "dc392832-3964-4212-9400-16026feef580",
+          "name": "??? ?????? ??????",
+          "auto": true,
+          "contexts": [],
+          "responses": [
+            {
+                "resetContexts": false,
+              "affectedContexts": [],
+              "parameters": [],
+              "messages": [
+                {
+                    "type": 0,
+                  "lang": "ru",
+                  "speech": "????????? ?? ?????? - +74951000100, ??? ???????"
+                }
+              ],
+              "defaultResponsePlatforms": {},
+              "speech": []
+            }
+          ],
+          "priority": 500000,
+          "webhookUsed": false,
+          "webhookForSlotFilling": false,
+          "lastUpdate": 1542186627,
+          "fallbackIntent": false,
+          "events": []
+        }

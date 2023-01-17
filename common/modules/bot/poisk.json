@@ -1,0 +1,67 @@
+{
+  "update_id": 924745932,
+  "callback_query": {
+    "id": "864913748969753926",
+    "from": {
+      "id": 201378424,
+      "is_bot": false,
+      "first_name": "Ivan",
+      "username": "visural",
+      "language_code": "ru"
+    },
+    "message": {
+      "message_id": 1063,
+      "from": {
+        "id": 1428629464,
+        "is_bot": true,
+        "first_name": "Kolesobot",
+        "username": "Kolesorecordbot"
+      },
+      "chat": {
+        "id": 201378424,
+        "first_name": "Ivan",
+        "username": "visural",
+        "type": "private"
+      },
+      "date": 1607366019,
+      "photo": [
+        {
+          "file_id": "AgACAgQAAxkDAAIEJ1_OdYMVVp2RERrMY29kxHNIarrtAAJWqzEbr7s9UmO4BRGmdi1HlyqhJF0AAwEAAwIAA20AA__RAwABHgQ",
+          "file_unique_id": "AQADlyqhJF0AA__RAwAB",
+          "file_size": 5492,
+          "width": 264,
+          "height": 99
+        }
+      ],
+      "caption": "\u041f\u0440\u0438\u0432\u0435\u0442, \u044f \u043f\u043e\u043c\u043e\u0433\u0443 \u0412\u0430\u043c \u0437\u0430\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u0443\u0441\u043b\u0443\u0433\u0438\n\n\u0417\u0430\u043f\u0438\u0441\u044c \u043d\u0430 \u0443\u0441\u043b\u0443\u0433\u0443 \"\u041b\u0435\u0433\u043a\u043e\u0432\u043e\u0439 \u0448\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436\"",
+      "reply_markup": {
+        "inline_keyboard": [
+          [
+            {
+              "text": "\u0417\u0430\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u0448\u0438\u043d\u043e\u043c\u043e\u043d\u0442\u0430\u0436",
+              "callback_data": "zapisatsanasinomontaz"
+            }
+          ],
+          [
+            {
+              "text": "\u041c\u043e\u0438 \u0437\u0430\u043f\u0438\u0441\u0438",
+              "callback_data": "moi-zapisi"
+            },
+            {
+              "text": "\u041e \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438",
+              "callback_data": "o-kompanii"
+            }
+          ],
+          [
+            {
+              "text": "\u041f\u043e\u0438\u0441\u043a",
+              "callback_data": "poisk"
+            }
+          ]
+        ]
+      }
+    },
+    "chat_instance": "-1136473926281425754",
+    "data": "poisk"
+  }
+}

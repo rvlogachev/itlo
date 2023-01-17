@@ -1,0 +1,47 @@
+<?php
+/**
+ * @author Semenov Alexander <semenov@skeeks.com>
+ * @link http://skeeks.com/
+ * @copyright 2010 SkeekS (СкикС)
+ * @date 06.03.2015
+ *
+ * @var \skeeks\cms\shop\models\ShopCmsContentElement $model
+ *
+ */
+/* @var $this yii\web\View */
+$shopProduct = $model->shopProduct;
+//Если этот товар привязан к главному
+$infoModel = $model;
+?>
+<article class="card-prod h-100 to-cart-fly-wrapper">
+    <div class="card-prod--labels">
+    </div>
+    <div class="card-prod--photo">
+        <?php if ($infoModel->image) : ?>
+            <img class="to-cart-fly-img" src="<?= \Yii::$app->imaging->thumbnailUrlOnRequest($infoModel->image ? $infoModel->image->src : null,
+                new \skeeks\cms\components\imaging\filters\Thumbnail([
+                    'w' => \Yii::$app->unifyShopTheme->catalog_img_preview_width,
+                    'h' => \Yii::$app->unifyShopTheme->catalog_img_preview_height,
+                    'm' => \Yii::$app->unifyShopTheme->catalog_img_preview_crop,
+                ]), $model->code
+            ); ?>" title="<?= \yii\helpers\Html::encode($infoModel->name); ?>" alt="<?= \yii\helpers\Html::encode($infoModel->name); ?>"/>
+        <?php else : ?>
+            <img class="img-fluid to-cart-fly-img" src="<?= \skeeks\cms\helpers\Image::getCapSrc(); ?>" alt="<?= $infoModel->name; ?>">
+        <?php endif; ?>
+    </div>
+    <div class="card-prod--inner g-px-10">
+        <div class="card-prod--reviews">
+            <div class="card-prod--category">
+                <a href="#" class="btn btn-primary btn-xs sx-btn-dettach"><i class="far fa-trash-alt"></i> Отвязать</a>
+            </div>
+            <div class="card-prod--category">
+                <?php if ($model->cmsTree) : ?>
+                    <a href="<?= $model->cmsTree->url; ?>" style="color: gray; font-size: 11px;"><?= $model->cmsTree->name; ?></a>
+                <?php endif; ?>
+            </div>
+            <div class="card-prod--title">
+                <a href="<?= $model->url; ?>" title="<?= $model->name; ?>" data-pjax="0" class="sx-card-prod--title-a sx-main-text-color g-text-underline--none--hover"><?= $infoModel->name; ?></a>
+            </div>
+        </div>
+    </div>
+</article>

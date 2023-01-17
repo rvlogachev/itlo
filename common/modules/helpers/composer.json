@@ -1,0 +1,33 @@
+{
+  "name": "itlo-cms/helpers",
+  "description": "Custom helper functions for Yii 2.0",
+  "keywords": ["yii", "yii2", "extension", "helper", "array-helper", "daterime-helper", "ip-helper", "string-helper", "text-analyzer", "utilities", "wdmg"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "1.4.8",
+  "homepage": "https://github.com/itlo-cms/helpers",
+  "support": {
+    "source": "https://github.com/itlo-cms/helpers",
+    "issues": "https://github.com/itlo-cms/helpers/issues"
+  },
+  "authors": [
+    {
+      "name": "Roman Logachev",
+      "email": "rlogachev@itlo.ru"
+    },
+    {
+      "name": "Infomarket Group, Russia",
+      "email": "info@infomarketstudio.ru"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.40",
+    "yiisoft/yii2-httpclient": "~2.0.0"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "wdmg\\helpers\\": "src"
+    }
+  }
+}

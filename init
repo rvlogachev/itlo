@@ -1,0 +1,411 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Butterfly.CMS Initialization Tool
+ *
+ * In order to run in non-interactive mode:
+ * php init --env=development --overwrite=y --dbhost=localhost --dbtype=mysql --dbcharset=utf8 --dbname=example --tbprefix=btf_ --dbuser=root --dbpassword=root --create_db=y --migrations=y
+ *
+ * @version         1.0.5
+ * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
+ * @link            https://github.com/wdmg/butterfly.cms
+ * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
+ * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
+ *
+ */
+
+if (!extension_loaded('openssl')) {
+    die('The OpenSSL PHP extension is required.');
+}
+
+$params = getParams();
+$rootPath = str_replace('\\', '/', __DIR__);
+$envs = require("$rootPath/environments/index.php");
+$environments = array_keys($envs);
+$version = '1.0.5';
+$welcome =
+    '╔════════════════════════════════════════════════╗'. "\n" .
+    '║        ``                                      ║'. "\n" .
+    '║     `/+++/-`                                   ║'. "\n" .
+    '║     :+++++++:`                                 ║'. "\n" .
+    '║     /++++++oo+:                                ║'. "\n" .
+    '║     /++oooooooo/`                              ║'. "\n" .
+    '║    :/ooooooooooo+`                .:/.         ║'. "\n" .
+    '║    ::+oooooooooss+               :+++/:.       ║'. "\n" .
+    '║    .::+ooooossssss/            `/ooo+/:-       ║'. "\n" .
+    '║     -//+osssssssyyy:          `+oooo+::.       ║'. "\n" .
+    '║      .://+sssyyyyyyy.        `ossooo/:-        ║'. "\n" .
+    '║       `-://+syyyyhhhy`      `oyssss/:-         ║'. "\n" .
+    '║         `-://+syhhhhho      oyyyys/:-          ║'. "\n" .
+    '║            `-:/+oyhddd/    ohhhyo/-`           ║'. "\n" .
+    '║               `.-:/oydd.  +dhy+:.`             ║'. "\n" .
+    '║                    `.-// -o/-.                 ║'. "\n" .
+    '║                  -/+++/. `:+++/.               ║'. "\n" .
+    '║                 `sssso.    :osso               ║'. "\n" .
+    '║                  -/+/`      .++.               ║'. "\n" .
+    '║                                                ║'. "\n" .
+    '║                  Butterfly.CMS                 ║'. "\n" .
+    '║          Initialization Tool, v.'.$version.'          ║'. "\n" .
+    '║          by Alexsander Vyshnyvetskyy           ║'. "\n" .
+    '║       (c) 2019-2020 W.D.M.Group, Ukraine       ║'. "\n" .
+    '║                                                ║'. "\n" .
+    '╚════════════════════════════════════════════════╝'. "\n\n";
+
+echo "\033[0;32m" . $welcome . "\033[0m";
+
+$environment = null;
+if (empty($params['env']) || $params['env'] === '1') {
+    echo "Which environment do you want the application to be initialized in?\n\n";
+    foreach ($environments as $i => $name) {
+        echo "  [$i] $name\n";
+    }
+    echo "\033[1;33m" . "\nYour choice [0-" . (count($envs) - 1) . ', or "q" to quit]: ' . "\033[0m";
+
+    $choice = trim(fgets(STDIN));
+
+    if (!ctype_digit($choice) || !in_array($choice, range(0, count($envs) - 1))) {
+        echo "\033[0;31m" . "Quit initialization.\n" . "\033[0m";
+        exit(0);
+    }
+
+    if (isset($environments[$choice])) {
+        $environment = $environments[$choice];
+    }
+} else {
+    $environment = $params['env'];
+}
+
+if (!in_array($environment, $environments)) {
+    $environmentsList = implode(', ', $environments);
+    echo "$environment is not a valid environment. Try one of the following: $environmentsList. \n";
+    exit(2);
+}
+
+$env = $envs[$environment];
+if (empty($params['env'])) {
+    echo "\033[1;33m" . "\nInitialize the application under '{$environments[$choice]}' environment? [yes|no]: " . "\033[0m";
+    $choice = trim(fgets(STDIN));
+    if (strncasecmp($choice, 'y', 1)) {
+        echo "\033[0;31m" . "Quit initialization.\n" . "\033[0m";
+        exit(0);
+    }
+}
+
+$db = [];
+if (empty($params['dbhost'])) {
+    echo "\033[1;33m" . "\nWant to set up a database connection? [yes|no]: " . "\033[0m";
+    $choice = trim(fgets(STDIN));
+    if (!strncasecmp($choice, 'y', 1)) {
+
+        echo "  Database host [localhost]: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['host'] = $choice;
+        else
+            $db['host'] = 'localhost';
+
+        echo "  Database name [example]: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['dbname'] = $choice;
+        else
+            $db['dbname'] = 'example';
+
+        echo "  Database table`s prefix: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['tbprefix'] = $choice;
+        else
+            $db['tbprefix'] = '';
+
+        echo "  Database type ['mysql']: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['type'] = $choice;
+        else
+            $db['type'] = 'mysql';
+
+        echo "  Database charset ['utf8']: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['charset'] = $choice;
+        else
+            $db['charset'] = 'utf8';
+
+        echo "  Database username [root]: ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['username'] = $choice;
+        else
+            $db['username'] = 'root';
+
+        echo "  Database password (default empty): ";
+        $choice = trim(fgets(STDIN));
+        if (!empty($choice))
+            $db['password'] = $choice;
+        else
+            $db['password'] = '';
+
+    }
+} else {
+    $db['host'] = $params['dbhost'];
+
+    if (!empty($params['dbname']))
+        $db['dbname'] = $params['dbname'];
+
+    if (!empty($params['tbprefix']))
+        $db['tbprefix'] = $params['tbprefix'];
+
+    if (!empty($params['dbtype']))
+        $db['type'] = $params['dbtype'];
+
+    if (!empty($params['dbcharset']))
+        $db['charset'] = $params['dbcharset'];
+
+    if (!empty($params['dbuser']))
+        $db['username'] = $params['dbuser'];
+
+    if (!empty($params['dbpassword']))
+        $db['password'] = $params['dbpassword'];
+}
+
+$create_db = false;
+if (!empty($db['host']) && !empty($db['dbname']) && !empty($db['type']) && !empty($db['username']) && !empty($db['password'])) {
+    if (empty($params['create_db'])) {
+        echo "\033[1;33m" . "\nTest connection and creating DB? [yes|no]: " . "\033[0m";
+        $choice = trim(fgets(STDIN));
+        if (!strncasecmp($choice, 'y', 1)) {
+            $create_db = true;
+        }
+    } else {
+        $choice = !empty($params['create_db']) ? $params['create_db'] : trim(fgets(STDIN));
+        if (!strncasecmp($choice, 'y', 1)) {
+            $create_db = true;
+        }
+    }
+}
+
+$migrations = false;
+if (empty($params['migrations'])) {
+    echo "\033[1;33m" . "\nApply modules migrations after initialization? [yes|no]: " . "\033[0m";
+    $choice = trim(fgets(STDIN));
+    if (!strncasecmp($choice, 'y', 1)) {
+        $migrations = true;
+    }
+} else {
+    $choice = !empty($params['migrations']) ? $params['migrations'] : trim(fgets(STDIN));
+    if (!strncasecmp($choice, 'y', 1)) {
+        $migrations = true;
+    }
+}
+
+echo "\033[0;32m" . "Start initialization...\n\n" . "\033[0m";
+
+$files = getFileList("$rootPath/environments/{$env['path']}");
+if (isset($env['skipFiles'])) {
+    $skipFiles = $env['skipFiles'];
+    array_walk($skipFiles, function(&$value) use($env, $rootPath) { $value = "$rootPath/$value"; });
+    $files = array_diff($files, array_intersect_key($env['skipFiles'], array_filter($skipFiles, 'file_exists')));
+}
+
+$all = false;
+foreach ($files as $file) {
+    if (!copyFile($rootPath, "environments/{$env['path']}/$file", $file, $all, $params)) {
+        break;
+    }
+}
+
+$callbacks = ['setDbConnection', 'setCookieValidationKey', 'setWritable', 'setExecutable', 'createSymlink'];
+foreach ($callbacks as $callback) {
+    if (!empty($env[$callback])) {
+        if ($callback == 'setDbConnection')
+            $callback($rootPath, $env[$callback], $db);
+        else
+            $callback($rootPath, $env[$callback]);
+    }
+}
+
+echo "\033[0;32m" . "\n... initialization completed.\n\n" . "\033[0m";
+
+
+if ($create_db) {
+
+    // Create connection
+    $connection = new mysqli($db['host'], $db['username'], $db['password']);
+
+    // Check connection
+    if ($connection->connect_error) {
+        echo "\033[0;31m" . "Connection to host `" . $db['host'] . "` failed: " . $connection->connect_error . "\n\n" . "\033[0m";
+    } else {
+
+        // Prepare SQL-query
+        if (!empty($db['dbcharset']))
+            $sql = "CREATE DATABASE " . $db['dbname'] . " CHARACTER SET " . strtoupper($db['charset']);
+        else
+            $sql = "CREATE DATABASE " . $db['dbname'];
+
+        // Create database
+        if ($connection->query($sql) === TRUE) {
+            echo "\033[0;32m" . "Database `".$db['dbname']."` created successfully!\n\n" . "\033[0m";
+        } else {
+            echo "\033[0;31m" . "Error creating database `" . $db['dbname'] . "`: " . $connection->error . "\n\n" . "\033[0m";
+        }
+    }
+    $connection->close();
+}
+
+if ($migrations) {
+
+    echo "\033[0;32m" . "Start apply migrations...\n" . "\033[0m";
+
+    echo "   - executing: yii admin/init --choice=1\n";
+    @system('php yii admin/init --choice=1 --interactive=0');
+
+    echo "   - executing: yii admin/options/init --choice=3\n";
+    @system('php yii admin/options/init --choice=3');
+
+    echo "   - executing: yii admin/users/init --choice=3\n";
+    @system('php yii admin/users/init --choice=3');
+
+    echo "   - executing: yii admin/rbac/init --choice=2\n";
+    @system('php yii admin/rbac/init --choice=2');
+
+    echo "\033[0;32m" . "\n... migrations completed.\n\n" . "\033[0m";
+}
+
+function getFileList($rootPath, $basePath = '')
+{
+    $files = [];
+    $handle = opendir($rootPath);
+    while (($path = readdir($handle)) !== false) {
+        if ($path === '.svn' || $path === '.' || $path === '..') {
+            continue;
+        }
+        $fullPath = "$rootPath/$path";
+        $relativePath = $basePath === '' ? $path : "$basePath/$path";
+        if (is_dir($fullPath)) {
+            $files = array_merge($files, getFileList($fullPath, $relativePath));
+        } else {
+            $files[] = $relativePath;
+        }
+    }
+    closedir($handle);
+    return $files;
+}
+
+function copyFile($rootPath, $source, $target, &$all, $params)
+{
+    if (!is_file($rootPath . '/' . $source)) {
+        echo "   - skip $target ($source not exist)\n";
+        return true;
+    }
+    if (is_file($rootPath . '/' . $target)) {
+        if (file_get_contents($rootPath . '/' . $source) === file_get_contents($rootPath . '/' . $target)) {
+            echo "   - unchanged $target\n";
+            return true;
+        }
+        if ($all) {
+            echo "   - overwrite $target\n";
+        } else {
+            echo "   - exist $target\n";
+            echo "\033[1;33m" . "     ...overwrite? [Yes|No|All|Quit]: " . "\033[0m";
+
+            $choice = !empty($params['overwrite']) ? $params['overwrite'] : trim(fgets(STDIN));
+            if (!strncasecmp($choice, 'q', 1)) {
+                return false;
+            } else {
+                if (!strncasecmp($choice, 'y', 1)) {
+                    echo "   - overwrite $target\n";
+                } else {
+                    if (!strncasecmp($choice, 'a', 1)) {
+                        echo "   - overwrite $target\n";
+                        $all = true;
+                    } else {
+                        echo "\n   - skip $target\n";
+                        return true;
+                    }
+                }
+            }
+        }
+        file_put_contents($rootPath . '/' . $target, file_get_contents($rootPath . '/' . $source));
+        return true;
+    }
+    echo "   - generate $target\n";
+    @mkdir(dirname($rootPath . '/' . $target), 0777, true);
+    file_put_contents($rootPath . '/' . $target, file_get_contents($rootPath . '/' . $source));
+    return true;
+}
+
+function getParams()
+{
+    $rawParams = [];
+    if (isset($_SERVER['argv'])) {
+        $rawParams = $_SERVER['argv'];
+        array_shift($rawParams);
+    }
+
+    $params = [];
+    foreach ($rawParams as $param) {
+        if (preg_match('/^--(\w+)(=(.*))?$/', $param, $matches)) {
+            $name = $matches[1];
+            $params[$name] = isset($matches[3]) ? $matches[3] : true;
+        } else {
+            $params[] = $param;
+        }
+    }
+    return $params;
+}
+
+function setWritable($rootPath, $paths)
+{
+    foreach ($paths as $writable) {
+        echo "   - chmod 0777 $writable\n";
+        @chmod("$rootPath/$writable", 0777);
+    }
+}
+
+function setExecutable($rootPath, $paths)
+{
+    foreach ($paths as $executable) {
+        echo "   - chmod 0755 $executable\n";
+        @chmod("$rootPath/$executable", 0755);
+    }
+}
+
+function setCookieValidationKey($rootPath, $paths)
+{
+    foreach ($paths as $file) {
+        echo "   - generate cookie validation key in $file\n";
+        $file = $rootPath . '/' . $file;
+        $length = 32;
+        $bytes = openssl_random_pseudo_bytes($length);
+        $key = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
+        $content = preg_replace('/(("|\')cookieValidationKey("|\')\s*=>\s*)(""|\'\')/', "\\1'$key'", file_get_contents($file));
+        file_put_contents($file, $content);
+    }
+}
+
+function setDbConnection($rootPath, $paths, $db)
+{
+    foreach ($paths as $file) {
+        echo "   - set database connection in $file\n";
+        $file = $rootPath . '/' . $file;
+        $dsn = trim($db['type']).':host='.trim($db['host']).';dbname='.trim($db['dbname']).'';
+        $content = preg_replace('/(("|\')dsn("|\')\s*=>\s*)(".*?"|\'.*?\')/', "\\1'".$dsn."'", file_get_contents($file));
+        $content = preg_replace('/(("|\')username("|\')\s*=>\s*)("\w*"|\'\w*\')/', "\\1'".trim($db['username'])."'", $content);
+        $content = preg_replace('/(("|\')password("|\')\s*=>\s*)("\w*"|\'\w*\')/', "\\1'".trim($db['password'])."'", $content);
+        $content = preg_replace('/(("|\')charset("|\')\s*=>\s*)("\w*"|\'\w*\')/', "\\1'".trim($db['charset'])."'", $content);
+        $content = preg_replace('/(("|\')tablePrefix("|\')\s*=>\s*)("\w*"|\'\w*\')/', "\\1'".trim($db['tbprefix'])."'", $content);
+        file_put_contents($file, $content);
+    }
+}
+
+function createSymlink($rootPath, $links) {
+    foreach ($links as $link => $target) {
+        echo "   - symlink " . $rootPath . "/" . $target . " " . $rootPath . "/" . $link . "\n";
+        //first removing folders to avoid errors if the folder already exists
+        @rmdir($rootPath . "/" . $link);
+        @symlink($rootPath . "/" . $target, $rootPath . "/" . $link);
+    }
+}

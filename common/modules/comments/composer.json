@@ -1,0 +1,38 @@
+{
+  "name": "backend/comments",
+  "description": "Tree comments system",
+  "keywords": ["yii2", "yii2-comments", "comments system", "wdmg"],
+  "type": "yii2-extension",
+  "license": "MIT",
+  "version": "0.0.11",
+  "homepage": "https://github.com/wdmg/yii2-comments",
+  "support": {
+    "source": "https://github.com/wdmg/yii2-comments",
+    "issues": "https://github.com/wdmg/yii2-comments/issues"
+  },
+  "authors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0.33",
+    "wdmg/yii2-base": "^1.1.6"
+  },
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "wdmg\\comments\\": ""
+    }
+  },
+  "extra": {
+    "options": {
+      "routePrefix": "admin"
+    }
+  }
+}

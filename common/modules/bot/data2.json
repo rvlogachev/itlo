@@ -1,0 +1,15 @@
+{
+    "type": "message_new",
+    "object": {
+        "id": 159,
+        "date": 1604259034,
+        "out": 0,
+        "user_id": 14568,
+        "read_state": 0,
+        "title": "",
+        "body": "Даkjsdhfkhsajkfdhksdajhf!!!!!!!",
+        "owner_ids": []
+    },
+    "group_id": 199112639,
+    "event_id": "1cd28693b23cc0201a1bf8deda6d61429aa27744"
+}
